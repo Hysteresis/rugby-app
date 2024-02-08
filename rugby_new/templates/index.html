@@ -8,17 +8,17 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item {% if request.path == '/' %}active{% endif %}">
-          <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Accueil</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="ods/">Liste ODS</a>
@@ -30,9 +30,19 @@
 
 
 
-<div class="container">
-    <p class="my-5 py-2"> Nombre de lignes de ODS : {{nombre_lignes_ods}}</p>
+<div class="container-fluid m-0 p-0 position-relative" style="">
+    <img src="https://mybayutcdn.bayut.com/mybayut/wp-content/uploads/Dubai-Sports-World-cover.jpg" class="img-fluid" style="width: 100%;" alt="...">
+    <div class="position-absolute top-50 start-50 translate-middle text-center text-white py-1 px-5" style="/* From https://css.glass */
+background: rgba(10, 10, 10, 0.70);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(10, 10, 10, 0.50);">
+        <p class="my-5 py-2"> Nombre de lignes de ODS : {{nombre_lignes_ods}}</p>
+    </div>
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

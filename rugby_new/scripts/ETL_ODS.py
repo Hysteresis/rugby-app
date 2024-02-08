@@ -15,6 +15,7 @@ def run():
     ODS.objects.all().delete()
     # test_df = df.head(5)
     # 117390
+    ods_objects = []
     for index, row in df.iterrows():
         ods = ODS(
             code_commune=row['Code Commune'],
@@ -29,5 +30,6 @@ def run():
             clubs=row['Clubs'],
             epa=row['EPA'],
         )
-        ods.save()
+        ods_objects.append(ods)
+    ODS.objects.bulk_create(ods_objects)
 

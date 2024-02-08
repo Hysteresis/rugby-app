@@ -7,20 +7,19 @@
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item {% if request.path == '/ods' %}active{% endif %}">
+        <li class="nav-item ">
           <a class="nav-link" aria-current="page" href="/">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="ods/">Liste ODS</a>
+          <a class="nav-link {% if request.path == '/ods/' %}active{% endif %}" href="ods/">Liste ODS</a>
         </li>
       </ul>
     </div>
@@ -28,7 +27,7 @@
 </nav>
 
 <div class="container my-1 py-2">
-    <hr>
+
     <h1 class="my-1 py-2 text-center">Liste ODS des clubs</h1>
     <hr>
 
@@ -50,35 +49,35 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">Code Commune</th>
+<!--                <th scope="col">Code Commune</th>-->
                 <th scope="col">Commune</th>
-                <th scope="col">Code QPV</th>
-                <th scope="col">Nom QPV</th>
+<!--                <th scope="col">Code QPV</th>-->
+<!--                <th scope="col">Nom QPV</th>-->
                 <th scope="col">Département</th>
                 <th scope="col">Région</th>
-                <th scope="col">Statut géo</th>
-                <th scope="col">Code</th>
+<!--                <th scope="col">Statut géo</th>-->
+<!--                <th scope="col">Code</th>-->
                 <th scope="col">Fédération</th>
-                <th scope="col">Clubs</th>
-                <th scope="col">EPA</th>
-                <th scope="col">Date</th>
+<!--                <th scope="col">Clubs</th>-->
+<!--                <th scope="col">EPA</th>-->
+<!--                <th scope="col">Date</th>-->
             </tr>
         </thead>
         <tbody>
         {% for data in data_ods %}
          <tr>
-            <td>{{ data.code_commune}}</td>
+<!--            <td>{{ data.code_commune}}</td>-->
             <td>{{ data.commune }}</td>
-            <td>{{ data.code_qpv }}</td>
-            <td>{{ data.nom_qpv }}</td>
+<!--            <td>{{ data.code_qpv }}</td>-->
+<!--            <td>{{ data.nom_qpv }}</td>-->
             <td>{{ data.departement }}</td>
             <td>{{ data.region }}</td>
-            <td>{{ data.statut_geo}}</td>
-            <td>{{ data.code }}</td>
+<!--            <td>{{ data.statut_geo}}</td>-->
+<!--            <td>{{ data.code }}</td>-->
             <td>{{ data.federation }}</td>
-            <td>{{ data.clubs }}</td>
-            <td>{{ data.epa }}</td>
-            <td>{{ data.date }}</td>
+<!--            <td>{{ data.clubs }}</td>-->
+<!--            <td>{{ data.epa }}</td>-->
+<!--            <td>{{ data.date }}</td>-->
         </tr>
         {% endfor %}
         </tbody>

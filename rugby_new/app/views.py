@@ -12,18 +12,15 @@ def index(request):
 
 def ods_data(request):
     data_ods = ODS.objects.all()
+
     paginator = Paginator(data_ods, 5)
-
     page = request.GET.get('page')
-
     try:
         data_ods = paginator.page(page)
     except PageNotAnInteger:
         data_ods = paginator.page(1)
     except EmptyPage:
-
         data_ods = paginator.page(paginator.num_pages)
-
 
     context = {'data_ods': data_ods}
 
