@@ -16,7 +16,7 @@ class Player(models.Model):
 
 class ODS(models.Model):
     """
-    #TODO a compléter
+
     """
     code_commune = models.CharField(max_length=255)
     commune = models.CharField(max_length=255)
