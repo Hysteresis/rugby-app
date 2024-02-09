@@ -54,23 +54,23 @@ def click_element_id(value):
     time.sleep(sleepy)
 
 
-def navbar():
+def is_navbar(value):
     """
     is navbar in this url
     """
-    is_navbar = driver.find_element(By.CLASS_NAME, "navbar")
-    if is_navbar:
+    navbar = driver.find_element(By.CLASS_NAME, value)
+    if navbar:
         print('Navbar: OK')
     else:
         print('navbar: /!\\ ko /!\\ ')
 
 
-def logo():
+def is_logo(value):
     """
     is logo in this url
     """
-    is_logo = driver.find_element(By.CSS_SELECTOR, 'img[alt="logo_navbar"]')
-    if is_logo.is_displayed():
+    logo = driver.find_element(By.CSS_SELECTOR, value)
+    if logo.is_displayed():
         print('logo: OK')
     else:
         print('logo: /!\\ ko /!\\ ')
@@ -89,14 +89,29 @@ def count_number_of_lines():
         print(f"Nombre de lignes: /!\\ ko /!\\")
 
 
-show_number_of_lines()
-navbar()
-logo()
-count_number_of_lines()
+def is_first_row():
+    """
+    Verify Abergement-Clémenciat is in first_row_ODS.commune
+    """
+    first_row_ODS = ODS.objects.first()
+    if 'Abbaretz' in first_row_ODS.commune:
+        print("Abbaretz est dans l'objet")
+    else:
+        print('non abbaretz')
+    if 'L\'Abergement-Clémenciat' in first_row_ODS.commune:
+        print("L\'Abergement-Clémenciat est dans l'objet")
+    else:
+        print('non L\'Abergement-Clémenciat')
 
-click_element_link_text("Liste ODS")
-click_element_class_name("next_page")
-click_element_id("navbar_home")
+
+show_number_of_lines()
+count_number_of_lines()
+is_navbar('navbar')
+is_logo('img[alt="logo_navbar"]')
+click_element_link_text('Liste ODS')
+is_first_row()
+click_element_class_name('next_page')
+click_element_id('navbar_home')
 
 
 time.sleep(100)
