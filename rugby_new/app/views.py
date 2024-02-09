@@ -3,6 +3,8 @@ from app.models import Player, ODS
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
+
+
 def index(request):
     data_ods = ODS.objects.all()
     nombre_lignes_ods = ODS.objects.count()
@@ -11,8 +13,8 @@ def index(request):
 
 
 def ods_data(request):
-    data_ods = ODS.objects.all()
-
+    # data_ods = ODS.objects.all()
+    data_ods = ODS.objects.all().order_by('commune')
     paginator = Paginator(data_ods, 7)
     page = request.GET.get('page')
     try:
@@ -30,3 +32,7 @@ def ods_data(request):
 def contact(request):
     context = {'contact': 'coach'}
     return render(request, 'contact.html', context=context)
+
+
+
+

@@ -1,8 +1,6 @@
 import os
-
 from app.models import Player, ODS
 import pandas as pd
-
 from rugby_new.settings import DATA_DIR
 
 

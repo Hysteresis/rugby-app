@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Player(models.Model):
     """_summary_
     :arg
@@ -46,5 +47,4 @@ class ODS(models.Model):
             {self.clubs} -
             {self.epa} -
             {self.date} -
-            
-"""
+        """

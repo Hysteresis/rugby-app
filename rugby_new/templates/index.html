@@ -3,27 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste ODS des clubs</title>
+    <title>Les clubs sportifs</title>
     <!-- Bootstrap CSS CDN -->
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 {% include 'navbar.html' %}
 
+
+
 <div class="container-fluid m-0 p-0 position-relative d-none d-lg-block" style="">
     <img src="https://mybayutcdn.bayut.com/mybayut/wp-content/uploads/Dubai-Sports-World-cover.jpg" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover; " alt="...">
     <div class="position-absolute top-50 start-50 translate-middle text-center text-white py-1 px-5" style="/* From https://css.glass */
-                background: rgba(10, 10, 10, 0.70);
+                background: rgba(10, 10, 10, 0.60);
+                width: 80%;
                 border-radius: 16px;
                 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(5px);
-                border: 1px solid rgba(10, 10, 10, 0.50);">
-<!--        <h4 class="my-5 py-2"> Nombre de lignes de ODS : {{nombre_lignes_ods}}</h4>-->
-        <h4 class="my-5 py-2"> Nombre de lignes de ODS : <span class="counterLg">0</span></h4>
+                border: 1px solid rgba(10, 10, 10, 0.40);">
+        <button id="btn_showNumberOfLines" onclick="showNumberOfLines()" type="button" class="btn btn-success my-5">Nombre de lignes</button>
+        <h4  id="numberOfLines" class="my-5 py-2 d-none"> Nombre de lignes de ODS : <span class="counterLg" id="value_count_ODS">{{nombre_lignes_ods}}</span></h4>
     </div>
 </div>
+<script>
+    function showNumberOfLines() {
+        document.getElementById('numberOfLines').classList.remove('d-none');
+    }
 
+    function toggleVisibility() {
+        var h4Element = document.getElementById('numberOfLines');
+        if (h4Element.classList.contains('d-none')) {
+            h4Element.classList.remove('d-none');
+        } else {
+            h4Element.classList.add('d-none');
+        }
+    }
+</script>
 
 <div class="container-fluid m-0 p-0 position-relative d-sm-block d-lg-none" style="">
     <img src="https://mybayutcdn.bayut.com/mybayut/wp-content/uploads/Dubai-Sports-World-cover.jpg" class="img-fluid" style="width: auto; height: 100vh; object-fit: cover;" alt="...">
@@ -34,45 +50,29 @@
                 backdrop-filter: blur(5px);
                 -webkit-backdrop-filter: blur(5px);
                 border: 1px solid rgba(10, 10, 10, 0.50);">
-<!--        <h4 class="my-5 py-2"> Nombre de lignes de ODS : {{nombre_lignes_ods}}</h4>-->
+        <h4 class="my-5 py-2"> Nombre de lignes de ODS : {{nombre_lignes_ods|length}}</h4>
         <h4 class="my-5 py-2"> Nombre de lignes</h4>
         <h4 class="my-5 py-2"><span class="counterSm">0</span></h4>
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var counterLg = document.querySelector('.counterLg');
+nb_lignes = document.querySelector("counterLg");
 
-        var nombre_lignes_ods = {{ nombre_lignes_ods }};
-        var delay = 1;
-        var currentCount = 0;
+function afficherNombres(a) {
+    let compteur = a;
+    function afficherNombre() {
+        console.log(compteur++);
+        if (compteur > 10) clearInterval(intervalID);
+    }
+    afficherNombre();
+    const intervalID = setInterval(afficherNombre, 1000);
+}
 
-        function incrementerCompteur() {
-            if (currentCount <= nombre_lignes_ods) {
-                counterLg.innerText = currentCount;
-                var randomNumber = Math.floor(Math.random() * (250 - 150 + 1)) + 150;
-                currentCount = currentCount + randomNumber;
-                setTimeout(incrementerCompteur, delay);
-            }
-        }
+afficherNombres({{10}});
 
-        var counterSm = document.querySelector('.counterSm');
-        var currentCount = 0;
-        function incrementerCompteurSm() {
-            if (currentCount <= nombre_lignes_ods) {
-                counterSm.innerText = currentCount;
-                var randomNumber = Math.floor(Math.random() * (250 - 150 + 1)) + 150;
-                currentCount = currentCount + randomNumber;
-                setTimeout(incrementerCompteurSm, delay);
-            }
-        }
-
-
-        incrementerCompteur();
-        incrementerCompteurSm();
-    });
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('ods/', ods_data, name='ods_data'),
-    path('contact/', contact)
+    path('contact/', contact),
 ]
