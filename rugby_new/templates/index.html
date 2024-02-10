@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="col text-center text-white">
-            <div class="card h-100">
+            <div class="card h-100"  id="bulk_card">
               <div class="card-body card-custom">
                 <button class="btn btn-success mt-2 mb-2"  onclick="runScript()" type="button" >Mise à jour BDD</button>
                 <h4 class="counterLg my-2 pt-2" id="elapsed_time" > ...</h4>
@@ -36,13 +36,15 @@ function runScript() {
     let xhr = new XMLHttpRequest();
     let startTime = new Date().getTime();
     let elapsed_time = document.querySelector('#elapsed_time')
+    let bulk_card = document.querySelector('#bulk_card')
+    bulk_card.style.backgroundImage = "";
     elapsed_time.innerText = '- Bulk -'
     let isHidden = false;
     let blinkInterval = setInterval(function() {
         if (isHidden) {
             elapsed_time.innerText = '- Bulk -';
         } else {
-            elapsed_time.innerText = '';
+            elapsed_time.innerText = '...';
         }
         isHidden = !isHidden;
     }, 1000);
@@ -51,11 +53,14 @@ function runScript() {
 
         if (xhr.readyState === 4 && xhr.status === 200) {
             clearInterval(blinkInterval);
-            let endTime = new Date().getTime(); // Enregistre le temps à la fin de l'exécution
+            let endTime = new Date().getTime();
             let elapsedTime = (endTime - startTime) / 1000
-            elapsed_time.innerText = elapsedTime.toFixed(1) + " s"
-            console.log('script readyState');
-            console.log(elapsedTime);
+            elapsed_time.innerText = " en " + elapsedTime.toFixed(1) + " s"
+            bulk_card.style.backgroundImage = "url('https://pngimg.com/d/hulk_PNG7.png')";
+            bulk_card.style.backgroundRepeat = "no-repeat";
+            bulk_card.style.backgroundSize = "cover";
+            bulk_card.style.backgroundPosition = "center top";
+            bulk_card.style.color = "yellow"
         } else if (xhr.readyState === 4 && xhr.status !== 200) {
             clearInterval(blinkInterval);
             alert('Une erreur s\'est produite lors de l\'exécution du script.');
