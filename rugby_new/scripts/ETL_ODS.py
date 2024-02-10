@@ -1,18 +1,15 @@
 import os
-from app.models import Player, ODS
+from app.models import ODS
 import pandas as pd
 from rugby_new.settings import DATA_DIR
 
 
 def run():
-    # lire le fichier CSV
     csv_file_path = os.path.join(DATA_DIR, 'clubs-data-2021.csv')
     df = pd.read_csv(csv_file_path, sep=';')
     # df = pd.read_csv('data/clubs-data-2021.csv', sep=';')
     print(df.head())
     ODS.objects.all().delete()
-    # test_df = df.head(5)
-    # 117390
     ods_objects = []
     for index, row in df.iterrows():
         ods = ODS(

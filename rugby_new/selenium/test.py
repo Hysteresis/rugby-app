@@ -112,7 +112,7 @@ click_element_link_text('Liste ODS')
 is_first_row()
 click_element_class_name('next_page')
 click_element_id('navbar_home')
-
+show_number_of_lines()
 
 time.sleep(100)
 

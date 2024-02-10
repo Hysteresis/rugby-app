@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import index, ods_data
+from app.views import index, ods_data, run_etl_ods
 from app.views import contact
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('ods/', ods_data, name='ods_data'),
+    path('etl_ods', run_etl_ods, name='run_etl_ods'),
     path('contact/', contact),
 ]

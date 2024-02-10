@@ -1,9 +1,14 @@
 from django.shortcuts import render
-from app.models import Player, ODS
+from app.models import ODS
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-# Create your views here.
+from scripts.ETL_ODS import run
 
+
+# Create your views here.
+def run_etl_ods(request):
+    run()
+    return render(request, 'etl_ods.html')
 
 def index(request):
     data_ods = ODS.objects.all()
