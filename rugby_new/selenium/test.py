@@ -11,7 +11,8 @@ django.setup()
 from app.models import ODS
 
 # change all values of time.sleep(sleepy)
-sleepy = 2
+sleepy = 5
+
 
 driver = webdriver.Chrome()
 driver.get("http://127.0.0.1:8000/")
@@ -24,6 +25,15 @@ def show_number_of_lines():
     """
     btn_showNumber = driver.find_element(By.ID, "btn_showNumberOfLines")
     btn_showNumber.click()
+    time.sleep(sleepy)
+
+
+def bulk_bdd():
+    """
+    delete and insert values in DB
+    """
+    btn_bulk = driver.find_element(By.ID, "btn_bulkDB")
+    btn_bulk.click()
     time.sleep(sleepy)
 
 
@@ -112,7 +122,7 @@ click_element_link_text('Liste ODS')
 is_first_row()
 click_element_class_name('next_page')
 click_element_id('navbar_home')
-show_number_of_lines()
+bulk_bdd()
 
 time.sleep(100)
 
