@@ -48,7 +48,6 @@ def count_number_of_lines():
     text = driver.find_element(By.ID, "value_count_ODS")
     number_of_lines = text.text
     number_of_lines = int(number_of_lines)
-    print(f'nb lignes : {number_of_lines}')
     time.sleep(sleepy)
     return number_of_lines
 
@@ -80,7 +79,6 @@ class TestClub(unittest.TestCase):
         test if the number of lines in CSV fil is equal to the number of lines in DB
         """
         count = count_nb_line()
-        print(f"count = {count}")
         display_count = count_number_of_lines()
         self.assertEqual(count, display_count)
 
@@ -97,12 +95,10 @@ class TestClub(unittest.TestCase):
         """
         is navbar in this url 'url/'?
         """
-        navbar = driver.find_element(By.CLASS_NAME, 'navba')
-        if navbar:
-            return True
-        else:
-            return False
+        navbar = driver.find_element(By.CLASS_NAME, 'navbar')
+        self.assertTrue(navbar)
 
 
 if __name__ == '__main__':
     unittest.main()
+    driver.close()
