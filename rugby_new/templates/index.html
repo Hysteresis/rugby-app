@@ -10,12 +10,13 @@
 </head>
 <body>
 {% include 'navbar.html' %}
+
 <div class="container home">
     <div class="row row-cols-1 row-cols-md-2 my-2 my-md-4 g-4">
-        <div class="col text-center text-white">
-            <div class="card h-100">
+        <div class="col text-center text-white card-test">
+            <div class="card h-100 card-test">
               <div class="card-body card-custom">
-                <button class="btn btn-success mt-2 mb-2" id="btn_showNumberOfLines" onclick="IncrementerCompteur()" type="button" >Calculer nombre de lignes</button>
+                <button class="btn btn-success mt-2 mb-2 " id="btn_showNumberOfLines" onclick="IncrementerCompteur()" type="button" >Calculer nombre de lignes</button>
                 <h4 class="counterLg my-2 pt-2" id="value_count_ODS">...</h4>
               </div>
             </div>
@@ -46,6 +47,9 @@
         </div>
     </div>
 </div>
+
+
+
 
 <script>
 function runScript() {

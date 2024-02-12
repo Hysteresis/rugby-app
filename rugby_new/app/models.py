@@ -48,3 +48,7 @@ class ODS(models.Model):
             {self.epa} -
             {self.date} -
         """
+
+
+    def count_columns(cls):
+        return len(cls._meta.fields)
