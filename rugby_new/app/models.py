@@ -106,7 +106,7 @@ class ODS_lic(models.Model):
     # date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.commune} - {self.departement}"
+        return f"{self.commune} - {self.departement} - {self.f_1_4_ans}"
 
 
 class D_Date(models.Model):
@@ -118,6 +118,13 @@ class D_Date(models.Model):
 
     def __str__(self):
         return str(self.year)
+
+
+class D_Age(models.Model):
+    pk_age = models.CharField(max_length=10, primary_key=True)
+
+    def __str__(self):
+        return self.pk_age
 
 
 
@@ -149,11 +156,7 @@ class D_Date(models.Model):
 
 
 
-# class D_Age(models.Model):
-#     pk_age = models.CharField(max_length=50, primary_key=True)
-#
-#     def __str__(self):
-#         return self.pk_age
+
 
 
 # class D_Sexe(models.Model):
