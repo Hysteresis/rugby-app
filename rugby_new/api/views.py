@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework import serializers
 from app.models import ODS
 
@@ -12,16 +13,16 @@ class EndPointDWH(APIView):
     - table
     """
     def get(self, request):
-        # table = request.GET['table'] je recupère une table de fait
-        # result = {'message': 'All is ok', 'table': table, 'result': 320}
         result = {
             'message': 'All is ok'
         }
 
         return Response(result)
 
-
-
-# class (APIView):
-#     def get(self, request):
-#         return
+    def post(self, request):
+        data = request.data
+        result = {
+            'message': 'POST a fonctionné',
+            'data': data
+        }
+        return Response(result, status=status.HTTP_201_CREATED)

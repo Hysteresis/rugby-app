@@ -17,7 +17,7 @@ class Player(models.Model):
 
 class ODS(models.Model):
     """
-
+    ODS des clubs
     """
     code_commune = models.CharField(max_length=255)
     commune = models.CharField(max_length=255)
@@ -31,7 +31,6 @@ class ODS(models.Model):
     clubs = models.CharField(max_length=255)
     epa = models.CharField(max_length=255)
     date = models.DateField(auto_now_add=True)
-
 
     def __str__(self,):
         return f"""
@@ -49,11 +48,14 @@ class ODS(models.Model):
             {self.date} -
         """
 
-
     def count_columns(cls):
         return len(cls._meta.fields)
 
+
 class ODS_lic(models.Model):
+    """
+    ODS des licenciés
+    """
     code_commune = models.CharField(max_length=255)
     commune = models.CharField(max_length=255)
     code_qpv = models.CharField(max_length=255)
@@ -105,3 +107,73 @@ class ODS_lic(models.Model):
 
     def __str__(self):
         return f"{self.commune} - {self.departement}"
+
+
+class D_Date(models.Model):
+    pk_date = models.DateField()
+
+    @property
+    def year(self):
+        return f"{self.pk_date.year}"
+
+    def __str__(self):
+        return str(self.year)
+
+
+
+# class D_Geographie(models.Model):
+#     pk_geographie = models.CharField(max_length=30, primary_key=True)
+#     commune = models.CharField(max_length=50)
+#     code_QPV = models.CharField(max_length=50)
+#     qpv = models.CharField(max_length=255)
+#     departement = models.CharField(max_length=50)
+#     nom_departement = models.CharField(max_length=255)
+#     region = models.CharField(max_length=255)
+#     status_geo = models.CharField(max_length=50)
+#
+#     class Meta:
+#         constraints = [
+#             models.UniqueConstraint(fields=['code_commune', 'code_qpv'], name='pk_geographie'),
+#         ]
+#
+#     def __str__(self):
+#         return self.commune
+
+
+# class D_Federation(models.Model):
+#     pk_federation = models.CharField(max_length=30, primary_key=True)
+#     federation = models.CharField(max_length=255)
+#
+#     def __str__(self):
+#         return self.federation
+
+
+
+# class D_Age(models.Model):
+#     pk_age = models.CharField(max_length=50, primary_key=True)
+#
+#     def __str__(self):
+#         return self.pk_age
+
+
+# class D_Sexe(models.Model):
+#     pk_sexe = models.CharField(max_length=50, primary_key=True)
+#
+#     def __str__(self):
+#         return self.pk_sexe
+
+
+# class F_Licence(models.Model):
+#     pk_licence = models.CharField(max_length=255, primary_key=True)
+#
+#     def __str__(self):
+#         # return self.
+#         pass
+
+
+# class F_Club(models.Model):
+#     pk_club = models.CharField(max_length=255, primary_key=True)
+#
+#     def __str__(self):
+#         # return self.
+#         pass

@@ -6,9 +6,7 @@ from rugby_new.settings import DATA_DIR
 
 def run():
     csv_file_path = os.path.join(DATA_DIR, 'lic-data-2021.csv')
-    # dtype = {'Code Commune': str, 'Nom QPV': str, 'Nom de la colonne avec des types mixtes': str}
     df = pd.read_csv(csv_file_path, sep=';', dtype=str)
-    # df = pd.read_csv('data/clubs-data-2021.csv', sep=';')
     print(df.head())
     ODS_lic.objects.all().delete()
     ods_objects = []
