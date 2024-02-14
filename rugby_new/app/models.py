@@ -142,6 +142,13 @@ class D_Federation(models.Model):
         return self.federation
 
 
+class D_Type(models.Model):
+    pk_type = models.CharField(max_length=50, primary_key=True)
+
+    def __str__(self):
+        return self.pk_type
+
+
 # class D_Geographie(models.Model):
 #     pk_geographie = models.CharField(max_length=30, primary_key=True)
 #     commune = models.CharField(max_length=50)
