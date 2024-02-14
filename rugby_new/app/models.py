@@ -134,6 +134,14 @@ class D_Sexe(models.Model):
         return self.pk_sexe
 
 
+class D_Federation(models.Model):
+    pk_federation = models.CharField(max_length=30, primary_key=True)
+    federation = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.federation
+
+
 # class D_Geographie(models.Model):
 #     pk_geographie = models.CharField(max_length=30, primary_key=True)
 #     commune = models.CharField(max_length=50)
@@ -153,12 +161,7 @@ class D_Sexe(models.Model):
 #         return self.commune
 
 
-# class D_Federation(models.Model):
-#     pk_federation = models.CharField(max_length=30, primary_key=True)
-#     federation = models.CharField(max_length=255)
-#
-#     def __str__(self):
-#         return self.federation
+
 
 
 
