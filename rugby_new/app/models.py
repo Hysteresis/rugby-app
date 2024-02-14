@@ -127,6 +127,12 @@ class D_Age(models.Model):
         return self.pk_age
 
 
+class D_Sexe(models.Model):
+    pk_sexe = models.CharField(max_length=50, primary_key=True)
+
+    def __str__(self):
+        return self.pk_sexe
+
 
 # class D_Geographie(models.Model):
 #     pk_geographie = models.CharField(max_length=30, primary_key=True)
@@ -159,11 +165,7 @@ class D_Age(models.Model):
 
 
 
-# class D_Sexe(models.Model):
-#     pk_sexe = models.CharField(max_length=50, primary_key=True)
-#
-#     def __str__(self):
-#         return self.pk_sexe
+
 
 
 # class F_Licence(models.Model):
