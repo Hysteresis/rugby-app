@@ -149,33 +149,27 @@ class D_Type(models.Model):
         return self.pk_type
 
 
-# class D_Geographie(models.Model):
-#     pk_geographie = models.CharField(max_length=30, primary_key=True)
-#     commune = models.CharField(max_length=50)
-#     code_QPV = models.CharField(max_length=50)
-#     qpv = models.CharField(max_length=255)
-#     departement = models.CharField(max_length=50)
-#     nom_departement = models.CharField(max_length=255)
-#     region = models.CharField(max_length=255)
-#     status_geo = models.CharField(max_length=50)
-#
-#     class Meta:
-#         constraints = [
-#             models.UniqueConstraint(fields=['code_commune', 'code_qpv'], name='pk_geographie'),
-#         ]
-#
-#     def __str__(self):
-#         return self.commune
+class D_Geographie(models.Model):
+    code_commune = models.CharField(max_length=30)
+    code_qpv = models.CharField(max_length=50)
+    commune = models.CharField(max_length=50)
+    qpv = models.CharField(max_length=255)
+    departement = models.CharField(max_length=50)
+    nom_departement = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    status_geo = models.CharField(max_length=50)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['code_commune', 'code_qpv'], name='pk_geographie'),
+        ]
 
+    def save(self, *args, **kwargs):
+        self.pk_geographie = f"{self.code_commune}_{self.code_qpv}"
+        super().save(*args, **kwargs)
 
-
-
-
-
-
-
-
+    def __str__(self):
+        return f"{self.code_commune} - {self.code_qpv} - {self.commune} - {self.qpv} - {self.departement} - {self.nom_departement} - {self.region} - {self.status_geo}"
 
 
 # class F_Licence(models.Model):
