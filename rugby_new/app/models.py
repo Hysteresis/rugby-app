@@ -172,6 +172,26 @@ class D_Geographie(models.Model):
         return f"{self.code_commune} - {self.code_qpv} - {self.commune} - {self.qpv} - {self.departement} - {self.nom_departement} - {self.region} - {self.status_geo}"
 
 
+class F_Club(models.Model):
+    fk_date = models.ForeignKey(D_Date, on_delete=models.CASCADE)
+    fk_geographie = models.ForeignKey(D_Geographie, on_delete=models.CASCADE)
+    fk_federation = models.ForeignKey(D_Federation, on_delete=models.CASCADE)
+    fk_type = models.ForeignKey(D_Type, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=255)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['fk_date', 'fk_geographie', 'fk_federation', 'fk_type'],
+                name='pk_club'
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.fk_date} - {self.fk_geographie} - {self.fk_federation} - {self.fk_type} - {self.nombre}"
+
+
+
 # class F_Licence(models.Model):
 #     pk_licence = models.CharField(max_length=255, primary_key=True)
 #
@@ -180,9 +200,4 @@ class D_Geographie(models.Model):
 #         pass
 
 
-# class F_Club(models.Model):
-#     pk_club = models.CharField(max_length=255, primary_key=True)
-#
-#     def __str__(self):
-#         # return self.
-#         pass
+

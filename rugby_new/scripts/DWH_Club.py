@@ -25,8 +25,8 @@ def run():
     annee = int(annee_str)
     nouvelle_date = D_Date(pk_date=datetime(annee, 1, 1))
     nouvelle_date.save()
-
-# D_Federation
+    #
+    # # D_Federation
     csv_file_path = os.path.join(DATA_DIR, 'clubs-data-2021.csv')
     df = pd.read_csv(csv_file_path, sep=';', dtype=str)
     print(df.head())
@@ -38,9 +38,9 @@ def run():
         )
 
     print(f"Fédération {federation_obj.pk_federation}: {federation_obj.federation}")
-
-
-    # D_Geographie
+    #
+    #
+    # # D_Geographie
     D_Geographie.objects.all().delete()
 
     csv_file_path = os.path.join(DATA_DIR, 'clubs-data-2021.csv')
@@ -68,7 +68,7 @@ def run():
         if record_key in seen_records:
             continue
         seen_records.add(record_key)
-
+        print(record_key)
         geographie_obj = D_Geographie(
             code_commune=row['Code Commune'],
             code_qpv=row['Code QPV'],
@@ -82,4 +82,7 @@ def run():
 
     D_Geographie.objects.bulk_create(geographie_objects)
 
-    # D_
+    # F_Club
+
+
+

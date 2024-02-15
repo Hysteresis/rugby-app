@@ -4,35 +4,45 @@ import pandas as pd
 from app.models import D_Geographie
 
 
+from rugby_new.settings import DATA_DIR
+import os
+import pandas as pd
+from app.models import D_Geographie
+
+
 def run():
     D_Geographie.objects.all().delete()
 
     csv_file_path = os.path.join(DATA_DIR, 'clubs-data-2021.csv')
     df = pd.read_csv(csv_file_path, sep=';', dtype=str)
-    df_filtered = df[
-        ~((df == 'NR') | (df == 'NR - Non réparti') | (df == '3.NR')).any(axis=1)
-    ]
 
-    print(df_filtered.head())
+    # Retirer les lignes avec "NR - Non réparti"
+    df = df[df['Statut géo'] != 'NR - Non réparti']
 
-    geographie_objects = []
-    seen_records = set()
+    # Retirer les colonnes avec "NR"
+    df = df.replace('NR', pd.NA)
 
-    for index, row in df_filtered.iterrows():
+    # Filtrer les données pour ne conserver que celles de la région "Auvergne-Rhône-Alpes"
+    df = df[df['Région'] == 'Auvergne-Rhône-Alpes']
+
+    # Utiliser un dictionnaire pour garder une trace des enregistrements uniques
+    unique_records = {}
+
+    for index, row in df.iterrows():
         record_key = (
             row['Code Commune'],
-            row['Code QPV'],
-            row['Commune'],
-            row['Nom QPV'],
-            row['Département'],
-            row['Région'],
-            row['Statut géo']
+            row['Code QPV']
         )
 
-        if record_key in seen_records:
+        # Vérifier si la clé existe déjà dans le dictionnaire des enregistrements uniques
+        if record_key in unique_records:
+            # Si la clé existe déjà, passer à l'itération suivante
             continue
-        seen_records.add(record_key)
 
+        # Si la clé n'existe pas, ajouter l'enregistrement au dictionnaire des enregistrements uniques
+        unique_records[record_key] = True
+
+        # Créer l'objet D_Geographie et l'ajouter à la base de données
         geographie_obj = D_Geographie(
             code_commune=row['Code Commune'],
             code_qpv=row['Code QPV'],
@@ -42,8 +52,6 @@ def run():
             region=row['Région'],
             status_geo=row['Statut géo']
         )
-        geographie_objects.append(geographie_obj)
+        geographie_obj.save()
 
-    # Insérer les objets en bloc dans la base de données
-    # D_Geographie.objects.bulk_create(geographie_objects, ignore_conflicts=True)
-    D_Geographie.objects.bulk_create(geographie_objects)
+    print("L'insertion des lignes est terminée.")
