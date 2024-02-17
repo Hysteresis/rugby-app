@@ -110,14 +110,11 @@ class ODS_lic(models.Model):
 
 
 class D_Date(models.Model):
-    pk_date = models.DateField()
+    pk_date = models.DateField(primary_key=True)
 
-    @property
-    def year(self):
-        return f"{self.pk_date.year}"
 
     def __str__(self):
-        return str(self.year)
+        return str(self.pk_date)
 
 
 class D_Age(models.Model):
@@ -128,14 +125,14 @@ class D_Age(models.Model):
 
 
 class D_Sexe(models.Model):
-    pk_sexe = models.CharField(max_length=50, primary_key=True)
-
+    pk_sexe = models.CharField(max_length=1, primary_key=True)
+    label = models.CharField(max_length=50)
     def __str__(self):
-        return self.pk_sexe
+        return self.label
 
 
 class D_Federation(models.Model):
-    pk_federation = models.CharField(max_length=30, primary_key=True)
+    pk_federation = models.CharField(max_length=5, primary_key=True)
     federation = models.CharField(max_length=255)
 
     def __str__(self):
@@ -143,15 +140,16 @@ class D_Federation(models.Model):
 
 
 class D_Type(models.Model):
-    pk_type = models.CharField(max_length=50, primary_key=True)
+    pk_type = models.CharField(max_length=5, primary_key=True)
 
     def __str__(self):
         return self.pk_type
 
 
 class D_Geographie(models.Model):
-    code_commune = models.CharField(max_length=30)
-    code_qpv = models.CharField(max_length=50)
+    pk_geographie = models.CharField(max_length=90, primary_key=True)
+    # code_commune = models.CharField(max_length=30)
+    # code_qpv = models.CharField(max_length=50)
     commune = models.CharField(max_length=50)
     qpv = models.CharField(max_length=255)
     departement = models.CharField(max_length=50)
@@ -159,36 +157,20 @@ class D_Geographie(models.Model):
     region = models.CharField(max_length=255)
     status_geo = models.CharField(max_length=50)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['code_commune', 'code_qpv'], name='pk_geographie'),
-        ]
-
-    def save(self, *args, **kwargs):
-        self.pk_geographie = f"{self.code_commune}_{self.code_qpv}"
-        super().save(*args, **kwargs)
-
     def __str__(self):
-        return f"{self.code_commune} - {self.code_qpv} - {self.commune} - {self.qpv} - {self.departement} - {self.nom_departement} - {self.region} - {self.status_geo}"
+        return f"{self.pk_geographie} - {self.commune} - {self.qpv} - {self.departement} - {self.nom_departement} - {self.region} - {self.status_geo}"
 
 
 class F_Club(models.Model):
+    code = models.CharField(max_length=255, primary_key=True)
     fk_date = models.ForeignKey(D_Date, on_delete=models.CASCADE)
     fk_geographie = models.ForeignKey(D_Geographie, on_delete=models.CASCADE)
     fk_federation = models.ForeignKey(D_Federation, on_delete=models.CASCADE)
     fk_type = models.ForeignKey(D_Type, on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=255)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['fk_date', 'fk_geographie', 'fk_federation', 'fk_type'],
-                name='pk_club'
-            ),
-        ]
+    nombre = models.IntegerField()
 
     def __str__(self):
-        return f"{self.fk_date} - {self.fk_geographie} - {self.fk_federation} - {self.fk_type} - {self.nombre}"
+        return f"{self.code} - {self.nombre}"
 
 
 

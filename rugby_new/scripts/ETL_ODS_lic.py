@@ -7,6 +7,9 @@ from rugby_new.settings import DATA_DIR
 def run():
     csv_file_path = os.path.join(DATA_DIR, 'lic-data-2021.csv')
     df = pd.read_csv(csv_file_path, sep=';', dtype=str)
+    df = df[df['Code Commune'] != 'NR - Non réparti']
+    df = df[df['Code QPV'] != 'NR - Non réparti']
+    df = df[df['Région'] == 'Auvergne-Rhône-Alpes']
     print(df.head())
     ODS_lic.objects.all().delete()
     ods_objects = []

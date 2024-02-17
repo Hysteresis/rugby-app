@@ -2,7 +2,11 @@ import os
 import pandas as pd
 from app.models import D_Federation
 from rugby_new.settings import DATA_DIR
-
+# NB Licence : 4023594
+# NB Club : 31674
+# adoupro — Hier à 15:34
+# D_Federation",   "count": 101,
+# D_Geography",     "count": 4172,
 
 def insert_data_from_csv(csv_file_path):
     df = pd.read_csv(csv_file_path, sep=';', dtype=str)
@@ -21,7 +25,7 @@ def insert_data_from_csv(csv_file_path):
             federation_obj.federation = row['Fédération']
             federation_obj.save()
 
-        print(f"Fédération {federation_obj.pk_federation}: {federation_obj.federation}")
+        print(f"Fédération {federation_obj.pk_federation}")
 
 
 def run():

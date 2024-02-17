@@ -7,8 +7,10 @@ from rugby_new.settings import DATA_DIR
 def run():
     csv_file_path = os.path.join(DATA_DIR, 'clubs-data-2021.csv')
     df = pd.read_csv(csv_file_path, sep=';')
-    # df = pd.read_csv('data/clubs-data-2021.csv', sep=';')
-    print(df.head())
+    df = df[df['Code Commune'] != 'NR - Non réparti']
+    df = df[df['Code QPV'] != 'NR - Non réparti']
+    df = df[df['Région'] == 'Auvergne-Rhône-Alpes']
+
     ODS.objects.all().delete()
     ods_objects = []
     for index, row in df.iterrows():
