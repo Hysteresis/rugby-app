@@ -1,7 +1,7 @@
 from django.urls import path
 
-from api.views import EndPointDWH
+from api.views import EndPointClub
 
 urlpatterns = [
-    path('', EndPointDWH.as_view()),
+    path('', EndPointClub.as_view()),
 ]

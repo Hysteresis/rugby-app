@@ -11,6 +11,30 @@
 <body>
 {% include 'navbar.html' %}
 
+
+<!---->
+<!-- <h1>Nombre de Clubs</h1>-->
+<!--    <p id="nombre-clubs">Chargement en cours...</p>-->
+
+<!--    <script>-->
+<!--        // Effectuer une requête GET à votre endpoint API-->
+<!--        fetch('/api/')-->
+<!--            .then(response => {-->
+
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(data => {-->
+<!--                console.log(data);-->
+<!--               const numClubs = data.num_clubs;-->
+<!--               console.log('Nombre de clubs:', numClubs)-->
+
+<!--                document.getElementById('nombre-clubs').innerText = `Nombre de clubs : ${numClubs}`;-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Erreur lors de la récupération des données :', error);-->
+<!--            });-->
+<!--    </script>-->
+<!---->
 <div class="container home">
     <div class="row row-cols-1 row-cols-md-2 my-2 my-md-4 g-4">
         <div class="col text-center text-white card-test">
@@ -24,7 +48,7 @@
         <div class="col text-center text-white">
             <div class="card h-100"  id="bulk_card">
               <div class="card-body card-custom">
-                <button class="btn btn-success mt-2 mb-2" id="btn_bulkDB"  onclick="runScript()" type="button" >Mise à jour BDD</button>
+                <button class="btn btn-success mt-2 mb-2" id="btn_bulkDB"  onclick="runScript()" type="button" >Mise à jour ETL_ODS</button>
                 <h4 class="counterLg my-2 pt-2" id="elapsed_time">...</h4>
               </div>
             </div>
@@ -32,8 +56,8 @@
         <div class="col text-center text-white">
             <div class="card h-100">
               <div class="card-body card-custom">
-                <button class="btn btn-success mt-2 mb-2" onclick="" type="button">lorem</button>
-                <h4 class="counterLg my-2 pt-2">...</h4>
+                <button class="btn btn-success mt-2 mb-2" onclick="nombreDeClubs()" type="button">Nombre de Clubs</button>
+                <h4 class="counterLg my-2 pt-2" id="nombre-clubs">...</h4>
               </div>
             </div>
         </div>
@@ -52,7 +76,28 @@
 
 
 <script>
+function nombreDeClubs() {
+console.log("nb clubs")
+        fetch('/api/')
+            .then(response => {
+
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+               const numClubs = data.num_clubs;
+               console.log('Nombre de clubs:', numClubs)
+
+                document.getElementById('nombre-clubs').innerText = `${numClubs}`;
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données :', error);
+            });
+}
+
+
 function runScript() {
+console.log('script ETL ODS')
     let xhr = new XMLHttpRequest();
     let startTime = new Date().getTime();
     let elapsed_time = document.querySelector('#elapsed_time')
