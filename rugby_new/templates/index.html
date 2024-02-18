@@ -58,6 +58,8 @@
               <div class="card-body card-custom">
                 <button class="btn btn-success mt-2 mb-2" onclick="nombreDeClubs()" type="button">Nombre de Clubs</button>
                 <h4 class="counterLg my-2 pt-2" id="nombre-clubs">...</h4>
+                <h4 class="counterLg my-2 pt-2" id="nombre-federation">...</h4>
+               <h4 class="counterLg my-2 pt-2" id="nombre-geographie">...</h4>
               </div>
             </div>
         </div>
@@ -85,10 +87,16 @@ console.log("nb clubs")
             })
             .then(data => {
                 console.log(data);
-               const numClubs = data.num_clubs;
-               console.log('Nombre de clubs:', numClubs)
+                const numClubs = data.num_clubs;
+                console.log('Nombre de clubs:', numClubs)
+                document.getElementById('nombre-clubs').innerText = `${numClubs} clubs`;
 
-                document.getElementById('nombre-clubs').innerText = `${numClubs}`;
+                const numFederations = data.num_federations;
+                document.getElementById('nombre-federation').innerText = `${numFederations} féderations`;
+
+                const numGeographies = data.num_geographies;
+                document.getElementById('nombre-geographie').innerText = `${numGeographies} lieux`;
+
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des données :', error);
