@@ -1,62 +1,68 @@
 import os
 from datetime import datetime
 import pandas as pd
-from app.models import F_Club, D_Date, D_Geographie, D_Federation, D_Type
-from rugby_new.settings import DATA_DIR
+from app.models import F_Club, D_Date, D_Geographie, D_Federation, D_Type, F_Licence
+from rugby_new import settings
 
 def run():
-    F_Club.objects.all().delete()
+    F_Licence.objects.all().delete()
 
-    csv_file_path = os.path.join(DATA_DIR, 'lic-data-2021.csv')
-
-    df = pd.read_csv(csv_file_path, sep=';', dtype=str, na_values=['NR - Non réparti', 'NR'])
-
-    df = df[df['Région'] == 'Auvergne-Rhône-Alpes']
-
-    date_obj, created_date = D_Date.objects.get_or_create(pk_date=datetime(2021, 1, 1))
-
-    clubs_to_create = []
-
-    existing_clubs = set()
-
+    # csv_file = 'clubs-data-2021.csv'
+    # DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
+    #
+    # csv_file_path = os.path.join(DATA_DIR, csv_file)
+    # df = pd.read_csv(csv_file_path, sep=';', dtype=str)
+    # df = df[df['Code Commune'] != 'NR - Non réparti']
+    # df = df[df['Code QPV'] != 'NR - Non réparti']
+    # df = df[df['Région'] == 'Auvergne-Rhône-Alpes']
+    #
+    # clubs_to_create = []
+    # i = 0
+    # # january_2021, created = D_Date.objects.get_or_create(pk_date=date(2021, 1, 1))
+    # d_date = D_Date.objects.first()
+    # print(d_date)
+    # # Créer un ensemble pour stocker les clés des F_Club
+    # club_keys = set()
+    #
     # for index, row in df.iterrows():
-    #     geographie_obj, created_geo = D_Geographie.objects.get_or_create(code_commune=row['Code Commune'],
-    #                                                                      code_qpv=row['Code QPV'],
-    #                                                                      defaults={'commune': row['Commune'],
-    #                                                                                'qpv': row['Nom QPV'],
-    #                                                                                'departement': row['Département'],
-    #                                                                                'region': row['Région'],
-    #                                                                                'status_geo': row['Statut géo']})
-    #     federation_obj, created_fed = D_Federation.objects.get_or_create(pk_federation=row['Code'],
-    #                                                                      defaults={'federation': row['Fédération']})
-    #     type_value = 'EPA' if row.get('EPA') else 'Club'
-    #     type_obj, created_type = D_Type.objects.get_or_create(pk_type=type_value, defaults={'type': type_value})
-
-        # Vérifier si une instance avec les mêmes clés étrangères existe déjà
-    #     club_key = (date_obj.pk, geographie_obj.pk, federation_obj.pk, type_obj.pk)
-    #     if club_key in existing_clubs:
-    #         print("Doublon trouvé, passage à l'instance suivante.")
-    #         continue
+    #     pk_geographie = row['Code Commune'] + '-' + row['Code QPV']
+    #     pk_federation = row['Code']
     #
-    #     existing_clubs.add(club_key)
+    #     # Créer la clé pour le club
+    #     club_key = (d_date.pk_date, pk_geographie, pk_federation)
     #
-    #     # Créer l'instance de F_Club uniquement si les données ne sont pas manquantes
-    #     if not pd.isna(row['Clubs']):
-    #         club = F_Club(
-    #             fk_date=date_obj,
-    #             fk_geographie=geographie_obj,
-    #             fk_federation=federation_obj,
-    #             fk_type=type_obj,
-    #             nombre=row['Clubs']
-    #         )
+    #     # Vérifier si le club_key est déjà dans l'ensemble
+    #     if club_key in club_keys:
+    #         print(f"Doublon trouvé pour le club : {club_key}")
+    #     else:
+    #         club_keys.add(club_key)
     #
-    #         clubs_to_create.append(club)
+    #         try:
+    #             geo = D_Geographie.objects.get(pk_geographie=pk_geographie)
+    #             fede = D_Federation.objects.get(pk_federation=pk_federation)
+    #         except (D_Geographie.DoesNotExist, D_Federation.DoesNotExist) as e:
+    #             print(f"Erreur : {e}")
+    #             continue
     #
-    #         if len(clubs_to_create) == 10000:
-    #             F_Club.objects.bulk_create(clubs_to_create)
-    #             clubs_to_create = []
+    #         for col in ['Clubs', 'EPA']:
+    #             type_label = col
+    #             alltype, created = D_Type.objects.get_or_create(pk_type=type_label)
     #
-    # if clubs_to_create:
-    #     F_Club.objects.bulk_create(clubs_to_create)
+    #             nb_target = int(row[col])
     #
-    # print("Remplissage de la table de fait terminé !")
+    #             if alltype:
+    #                 club_code = f"{d_date.pk_date}_{geo.pk_geographie}_{fede.pk_federation}_{alltype.pk_type}"
+    #                 club = F_Club(
+    #                     code=club_code,
+    #                     fk_date=d_date,
+    #                     fk_type=alltype,
+    #                     fk_geographie=geo,
+    #                     fk_federation=fede,
+    #                     nombre=nb_target
+    #                 )
+    #                 print(club)
+    #                 clubs_to_create.append(club)
+    #             else:
+    #                 print(f"Erreur: Type inconnu '{type_label}'")
+    #
+    # F_Club.objects.bulk_create(clubs_to_create)

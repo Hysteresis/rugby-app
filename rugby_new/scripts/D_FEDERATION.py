@@ -28,7 +28,7 @@ def insert_data_from_csv(csv_file_path):
         print(f"Fédération {federation_obj.pk_federation}")
 
 
-def run():
+def inserer_federation():
     D_Federation.objects.all().delete()
 
     csv_files = ['clubs-data-2021.csv', 'lic-data-2021.csv']  # Liste de vos fichiers CSV

@@ -26,6 +26,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('ods/', ods_data, name='ods_data'),
     path('api/', include(api_urls), name='api_endpoint'),
+    path('api/update-date/', include(api_urls), name='api_update_date'),
     path('etl_ods', run_etl_ods, name='run_etl_ods'),
     path('contact/', contact),
 ]

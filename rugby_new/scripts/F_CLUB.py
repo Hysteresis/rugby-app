@@ -20,7 +20,9 @@ def run():
 
     clubs_to_create = []
     i = 0
-    january_2021, created = D_Date.objects.get_or_create(pk_date=date(2021, 1, 1))
+    # january_2021, created = D_Date.objects.get_or_create(pk_date=date(2021, 1, 1))
+    d_date = D_Date.objects.first()
+    print(d_date)
     # Créer un ensemble pour stocker les clés des F_Club
     club_keys = set()
 
@@ -29,7 +31,7 @@ def run():
         pk_federation = row['Code']
 
         # Créer la clé pour le club
-        club_key = (january_2021.pk_date, pk_geographie, pk_federation)
+        club_key = (d_date.pk_date, pk_geographie, pk_federation)
 
         # Vérifier si le club_key est déjà dans l'ensemble
         if club_key in club_keys:
@@ -51,10 +53,10 @@ def run():
                 nb_target = int(row[col])
 
                 if alltype:
-                    club_code = f"{january_2021.pk_date}_{geo.pk_geographie}_{fede.pk_federation}_{alltype.pk_type}"
+                    club_code = f"{d_date.pk_date}_{geo.pk_geographie}_{fede.pk_federation}_{alltype.pk_type}"
                     club = F_Club(
                         code=club_code,
-                        fk_date=january_2021,
+                        fk_date=d_date,
                         fk_type=alltype,
                         fk_geographie=geo,
                         fk_federation=fede,

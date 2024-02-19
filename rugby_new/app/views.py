@@ -10,6 +10,7 @@ def run_etl_ods(request):
     run()
     return render(request, 'etl_ods.html')
 
+
 def index(request):
     data_ods = ODS.objects.all()
     nombre_lignes_ods = ODS.objects.count()

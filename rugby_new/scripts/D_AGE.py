@@ -1,7 +1,7 @@
 from app.models import ODS_lic, D_Age
 
 
-def run():
+def inserer_age():
     D_Age.objects.all().delete()
 
     tranches_age = []

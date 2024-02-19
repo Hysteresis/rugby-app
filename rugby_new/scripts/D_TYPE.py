@@ -4,7 +4,7 @@ from app.models import D_Type
 from rugby_new.settings import DATA_DIR
 
 
-def run():
+def inserer_type():
     D_Type.objects.all().delete()
 
     types = ["Clubs", "EPA"]

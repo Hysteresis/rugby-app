@@ -3,6 +3,19 @@ from django.db import models
 # Create your models here.
 
 
+
+class Test(models.Model):
+    """_summary_
+    :arg
+
+    """
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    def __str__(self,):
+        return f"{self.first_name} - {self.last_name}"
+
+
 class Player(models.Model):
     """_summary_
     :arg
@@ -34,7 +47,7 @@ class ODS(models.Model):
 
     def __str__(self,):
         return f"""
-            {self.code_commune} - 
+            {self.code_commune} -
             {self.commune} -
             {self.code_qpv} -
             {self.nom_qpv} -
@@ -112,7 +125,6 @@ class ODS_lic(models.Model):
 class D_Date(models.Model):
     pk_date = models.DateField(primary_key=True)
 
-
     def __str__(self):
         return str(self.pk_date)
 
@@ -173,13 +185,35 @@ class F_Club(models.Model):
         return f"{self.code} - {self.nombre}"
 
 
+class F_Licence(models.Model):
+    """_summary_
 
-# class F_Licence(models.Model):
-#     pk_licence = models.CharField(max_length=255, primary_key=True)
-#
-#     def __str__(self):
-#         # return self.
-#         pass
+    Args:
+        models (_type_): _description_
+    """
+    code = models.CharField(max_length=45, primary_key=True)
+    nombre = models.IntegerField()
+    federation_fk = models.ForeignKey(D_Federation, on_delete=models.CASCADE)
+    sexe_fk = models.ForeignKey(D_Sexe, on_delete=models.CASCADE)
+    age_group_fk = models.ForeignKey(D_Age, on_delete=models.CASCADE)
+    date_fk = models.ForeignKey(D_Date, on_delete=models.CASCADE)
+    geography_fk = models.ForeignKey(D_Geographie, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.federation_fk} - {self.sexe_fk} - {self.age_group_fk} - {self.geography_fk}"
 
 
+class City(models.Model):
+    """summary
+
+    Args:
+        models (type): description
+    """
+    postal_code = models.CharField(max_length=5, primary_key=True)
+    name = models.CharField(max_length=300)
+    department = models.CharField(max_length=300)
+    region = models.CharField(max_length=300)
+    country = models.CharField(max_length=300)
+    def __str__(self):
+            return f"{self.postal_code} - {self.name} - {self.department} - {self.region} - {self.country}"
 

@@ -37,7 +37,7 @@ def insert_geography_data_from_csv(csv_file_path):
         # print(f"Géographie {geography_obj.pk_geographie}: {geography_obj.commune}")
 
 
-def run():
+def inserer_geographie():
     D_Geographie.objects.all().delete()
 
     csv_files = ['clubs-data-2021.csv', 'lic-data-2021.csv'] # Liste de vos fichiers CSV contenant les données de géographie
