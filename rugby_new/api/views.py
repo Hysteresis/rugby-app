@@ -50,34 +50,35 @@ class EndPointClub(APIView):
         return Response(data)
 
 
-
-        # def post(self, request):
-        #     data = request.data
-        #     result = {
-        #         'message': 'POST a fonctionné',
-        #         'data': data
-        #     }
-        #     return Response(result, status=status.HTTP_201_CREATED)
-
-
 class Date_api(APIView):
-    # http:// 127.0.0.1:8000/api/dates/?date = 2021-01-01
-    def get(self, request):
-        date_param = request.query_params.get('date', None)
-        if date_param:
-            try:
-                date = datetime.strptime(date_param, '%Y-%m-%d').date()
-                dates = D_Date.objects.filter(pk_date=date)
-                serializer = DDateSerializer(dates, many=True)
-                return Response(serializer.data)
-            except ValueError:
-                return Response({'error': 'Invalid date format. Please use YYYY-MM-DD.'}, status=400)
+    # http://127.0.0.1:8000/api/dates/2021-01-01/
+    lookup_field = "pk_date"
+
+    def get(self, request, pk_date=None):
+        if pk_date is not None:
+            data = D_Date.objects.filter(pk_date=pk_date)
+            serializer = DDateSerializer(data, many=True)
+            return Response(serializer.data)
         else:
-            dates = D_Date.objects.all()
-            serializer = DDateSerializer(dates, many=True)
+            data = D_Date.objects.all()
+            serializer = DDateSerializer(data, many=True)
             return Response(serializer.data)
 
-    # http_method_names = ['psot']
+    # def get(self, request):
+    #     date_param = request.query_params.get('date', None)
+    #     if date_param:
+    #         try:
+    #             date = datetime.strptime(date_param, '%Y-%m-%d').date()
+    #             dates = D_Date.objects.filter(pk_date=date)
+    #             serializer = DDateSerializer(dates, many=True)
+    #             return Response(serializer.data)
+    #         except ValueError:
+    #             return Response({'error': 'Invalid date format. Please use YYYY-MM-DD.'}, status=400)
+    #     else:
+    #         dates = D_Date.objects.all()
+    #         serializer = DDateSerializer(dates, many=True)
+    #         return Response(serializer.data)
+
 
     def post(self, request):
         try:
@@ -95,17 +96,41 @@ class Date_api(APIView):
 
 
 class City_api(APIView):
-    def get(self, request):
-        name = request.query_params.get('name', None)
-        if name:
-            cities = City.objects.filter(name__icontains=name)
+    # http://127.0.0.1:8000/api/cities/63000
+    lookup_field = 'postal_code'
+    def get(self, request, postal_code=None):
+        if postal_code is not None:
+            data = City.objects.filter(postal_code=postal_code)
+            serializer = CitySerializer(data, many=True)
+            return Response(serializer.data)
         else:
-            cities = City.objects.all()
-        serializer = CitySerializer(cities, many=True)
-        data = {
-            'Ville': serializer.data,
-        }
-        return Response(data)
+            data = City.objects.all()
+            serializer = CitySerializer(data, many=True)
+            return Response(serializer.data)
+
+
+    # def get(self, request):
+    #     lookup_value = request.query_params.get(self.lookup_field)
+    #
+    #     if lookup_value is not None:
+    #         cities = City.objects.filter(name__iexact=lookup_value)
+    #         serializer = CitySerializer(cities, many=True)
+    #         data = {'Ville': serializer.data}
+    #         return Response(data)
+    #     else:
+    #         return Response({'error': 'Veuillez fournir un nom de ville dans l\'URL.'},
+    #                         status=status.HTTP_400_BAD_REQUEST)
+    # def get(self, request):
+    #     name = request.query_params.get('name', None)
+    #     if name:
+    #         cities = City.objects.filter(name__icontains=name)
+    #     else:
+    #         cities = City.objects.all()
+    #     serializer = CitySerializer(cities, many=True)
+    #     data = {
+    #         'Ville': serializer.data,
+    #     }
+    #     return Response(data)
 
     def post(self, request):
         serializer = CitySerializer(data=request.data)
