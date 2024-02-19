@@ -108,30 +108,6 @@ class City_api(APIView):
             serializer = CitySerializer(data, many=True)
             return Response(serializer.data)
 
-
-    # def get(self, request):
-    #     lookup_value = request.query_params.get(self.lookup_field)
-    #
-    #     if lookup_value is not None:
-    #         cities = City.objects.filter(name__iexact=lookup_value)
-    #         serializer = CitySerializer(cities, many=True)
-    #         data = {'Ville': serializer.data}
-    #         return Response(data)
-    #     else:
-    #         return Response({'error': 'Veuillez fournir un nom de ville dans l\'URL.'},
-    #                         status=status.HTTP_400_BAD_REQUEST)
-    # def get(self, request):
-    #     name = request.query_params.get('name', None)
-    #     if name:
-    #         cities = City.objects.filter(name__icontains=name)
-    #     else:
-    #         cities = City.objects.all()
-    #     serializer = CitySerializer(cities, many=True)
-    #     data = {
-    #         'Ville': serializer.data,
-    #     }
-    #     return Response(data)
-
     def post(self, request):
         serializer = CitySerializer(data=request.data)
         if serializer.is_valid():
@@ -139,3 +115,35 @@ class City_api(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, postal_code):
+        try:
+            city = City.objects.get(postal_code=postal_code)
+        except City.DoesNotExist:
+            return Response({'error': 'La ville spécifiée n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CitySerializer(city, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, postal_code):
+        try:
+            city = City.objects.get(postal_code=postal_code)
+        except City.DoesNotExist:
+            return Response({'error': 'La ville spécifiée n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CitySerializer(city, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, postal_code):
+        try:
+            city = City.objects.get(postal_code=postal_code)
+        except City.DoesNotExist:
+            return Response({'error': 'La ville spécifiée n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+
+        city.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
