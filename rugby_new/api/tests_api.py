@@ -1,4 +1,5 @@
 import os
+from datetime import date
 
 from django.test import TestCase
 
@@ -19,6 +20,39 @@ response = view(request, postal_code='75001')
 response.render()
 json_response = json.loads(response.content)
 
+
+class TestClubApi(TestCase):
+    def setUp(self):
+        date_instance = D_Date.objects.create(pk_date="2021-01-01")
+        geographie_instance = D_Geographie.objects.create(
+            pk_geographie="74315-CSZ - Yvoire - nan - 74 - - Auvergne-Rhône-Alpes - 1.Champ geoc",
+            commune="Yvoire", qpv="...", departement="74",
+            nom_departement="Auvergne-Rhône-Alpes", region="...",
+            status_geo="...")
+        federation_instance = D_Federation.objects.create(pk_federation="12345",
+                                                          federation="FF de Sauvetage et de Secourisme")
+        type_instance = D_Type.objects.create(pk_type="EPA")
+        code_instance = f"{date_instance.pk_date}_{geographie_instance.pk_geographie}_{type_instance.pk_type}"
+
+        self.club_instance = F_Club.objects.create(
+            code=code_instance,
+            fk_date=date_instance,
+            fk_geographie=geographie_instance,
+            fk_federation=federation_instance,
+            fk_type=type_instance,
+            nombre=10
+        )
+
+    def test_get_all_clubs(self):
+        request = factory.get('/clubs/')
+        response = view(request)
+        self.assertEqual(response.status_code, 200)
+
+    # def test_error_server(self):
+    #     request = factory.get('/api/clubss/')
+    #     response = view(request)
+    #     print(f"response : {response}")
+        # self.assertEqual(response.status_code, 500)
 
 class TestCities(TestCase):
     # python manage.py test
@@ -63,7 +97,6 @@ class TestCities(TestCase):
         request = factory.post('/cities/', invalid_city_data, format='json')
         response = view(request)
 
-        # Assurez-vous que la réponse contient un statut HTTP 400 BAD REQUEST
         self.assertEqual(response.status_code, 400)
 
     def test_patch_city(self):
@@ -77,8 +110,9 @@ class TestCities(TestCase):
         valid_city_data = {
             "name": "Clermont-Ferrand",
         }
-        request = factory.patch('/cities/75001/', valid_city_data)
+        request = factory.patch('/cities', valid_city_data)
         response = view(request, postal_code='63000')
+
         self.assertEqual(response.status_code, 200)
 
 class TestFClubModel(TestCase):
@@ -165,6 +199,3 @@ class TestETLClub(TestCase):
 #
 #         self.assertEqual(ODS.objects.count(), 15837)
 #
-
-
-

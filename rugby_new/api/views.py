@@ -23,6 +23,9 @@ class FClubPagination(PageNumberPagination):
     max_page_size = 100
 
 
+
+
+
 class EndPointClub(APIView):
     """Here my first API
     get arg:
@@ -64,22 +67,6 @@ class Date_api(APIView):
             serializer = DDateSerializer(data, many=True)
             return Response(serializer.data)
 
-    # def get(self, request):
-    #     date_param = request.query_params.get('date', None)
-    #     if date_param:
-    #         try:
-    #             date = datetime.strptime(date_param, '%Y-%m-%d').date()
-    #             dates = D_Date.objects.filter(pk_date=date)
-    #             serializer = DDateSerializer(dates, many=True)
-    #             return Response(serializer.data)
-    #         except ValueError:
-    #             return Response({'error': 'Invalid date format. Please use YYYY-MM-DD.'}, status=400)
-    #     else:
-    #         dates = D_Date.objects.all()
-    #         serializer = DDateSerializer(dates, many=True)
-    #         return Response(serializer.data)
-
-
     def post(self, request):
         try:
             date_data = request.data.get('pk_date')
@@ -119,7 +106,7 @@ class City_api(APIView):
         try:
             city = City.objects.get(postal_code=postal_code)
         except City.DoesNotExist:
-            return Response({'error': 'La ville spécifiée n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'La ville n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = CitySerializer(city, data=request.data)
         if serializer.is_valid():
@@ -131,7 +118,7 @@ class City_api(APIView):
         try:
             city = City.objects.get(postal_code=postal_code)
         except City.DoesNotExist:
-            return Response({'error': 'La ville spécifiée n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'La ville n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = CitySerializer(city, data=request.data, partial=True)
         if serializer.is_valid():
@@ -143,7 +130,90 @@ class City_api(APIView):
         try:
             city = City.objects.get(postal_code=postal_code)
         except City.DoesNotExist:
-            return Response({'error': 'La ville spécifiée n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'La ville n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
 
         city.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Club_api(APIView):
+    def get(self, request):
+        try:
+            clubs = F_Club.objects.all()
+            paginator = PageNumberPagination()
+            paginator.page_size = 3
+            result_page = paginator.paginate_queryset(clubs, request)
+            serializer = FClubSerializer(result_page, many=True)
+            count = clubs.count()
+
+
+            response_data = {
+                'count': count,
+                'next': paginator.get_next_link(),
+                'previous': paginator.get_previous_link(),
+                'results': serializer.data
+            }
+
+            return paginator.get_paginated_response(response_data)
+        except Exception as e:
+            return Response({'erreur': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    def post(self, request):
+        serializer = FClubSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        instance = self.get_object(pk)
+        serializer = FClubSerializer(instance, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        instance = self.get_object(pk)
+        serializer = FClubSerializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        instance = self.get_object(pk)
+        instance.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class API_Operational_Data_Store(APIView):
+    # api/ods/table/
+    """ Voici l\'API de ma base de donnée
+
+        Méthode GET :
+        Méthode POST :
+        Méthode PUT :
+        Méthode PATCH :
+        Méthode DELETE :
+    """
+
+    def get(self, request, pk=None):
+
+        if 'table_name' in request.GET:
+            table_name = request.GET['table_name']
+            data = eval(table_name).objects.all()
+            count = data.count()
+        else:
+            data = F_Club.objects.all()
+            count = data.count()
+
+        serializer = FClubSerializer(data=data, many=True)
+        serializer.is_valid()
+
+        data = serializer.data
+
+        result = {
+            'count': count,
+            'data': data,
+        }
+
+        return Response(data=result, status=status.HTTP_200_OK)
