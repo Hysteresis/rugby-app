@@ -12,7 +12,13 @@
           <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'index' %}">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.path == '/ods/' %}active{% endif %}" href="{% url 'ods_data' %}">Liste ODS</a>
+          <a class="nav-link {% if request.path == '/ods/' %}active{% endif %}" href="{% url 'ods_data' %}">ODS Clubs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/api/' %}active{% endif %}" href="{% url 'api:endpoint' %}">API</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/admin/' %}active{% endif %}" href="{% url 'admin:index' %}">Admin</a>
         </li>
       </ul>
     </div>

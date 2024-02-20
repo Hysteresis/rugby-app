@@ -8,7 +8,8 @@ from rest_framework import status
 from rest_framework import serializers
 from app.models import F_Club, D_Federation, D_Geographie, D_Date, City
 from app import serializers
-from app.serializers import FClubSerializer, DFederationSerializer, DDateSerializer, CitySerializer
+from app.serializers import FClubSerializer, DFederationSerializer, DDateSerializer, CitySerializer, \
+    D_GeographieSerializer
 from rest_framework.pagination import PageNumberPagination
 from django.db import transaction
 # from django_filters.rest_framework import DjangoFilterBackend
@@ -27,30 +28,33 @@ class FClubPagination(PageNumberPagination):
 
 
 class EndPointClub(APIView):
+    # http://127.0.0.1:8000/api/
     """Here my first API
     get arg:
     - table
     """
     def get(self, request):
+        paginator = PageNumberPagination()
+        paginator.page_size = 4
+
         clubs = F_Club.objects.all()
-        num_clubs = clubs.count()
-
         federations = D_Federation.objects.all()
-        num_federations = federations.count()
-        print(num_federations)
-
         geographies = D_Geographie.objects.all()
-        num_geographies = geographies.count()
 
-        serializer = FClubSerializer(clubs, many=True)
+        clubs_page = paginator.paginate_queryset(clubs, request)
+        clubs_serializer = FClubSerializer(clubs_page, many=True)
+
         data = {
-            'num_clubs': num_clubs,
-            'num_federations': num_federations,
-            'num_geographies': num_geographies,
-            'clubs': serializer.data
+            'num_clubs': clubs.count(),
+            'num_federations': federations.count(),
+            'num_geographies': geographies.count(),
+            'clubs': clubs_serializer.data,
+            'next': paginator.get_next_link(),
+            'previous': paginator.get_previous_link(),
         }
 
-        return Response(data)
+        return paginator.get_paginated_response(data)
+
 
 
 class Date_api(APIView):
@@ -217,3 +221,39 @@ class API_Operational_Data_Store(APIView):
         }
 
         return Response(data=result, status=status.HTTP_200_OK)
+
+
+class D_Geographie_api(APIView):
+    """
+
+    """
+
+    def get(self, request, pk_geographie):
+        try:
+            geographies = D_Geographie.objects.filter(pk_geographie=pk_geographie)
+            paginator = PageNumberPagination()
+            paginator.page_size = 3
+            result_page = paginator.paginate_queryset(geographies, request)
+            serializer = D_GeographieSerializer(result_page, many=True)
+            response_data = {
+                'next': paginator.get_next_link(),
+                'previous': paginator.get_previous_link(),
+                'results': serializer.data
+            }
+            return paginator.get_paginated_response(response_data)
+        except Exception as e:
+            return Response({'erreur': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def patch(self, request, pk_geographie):
+        # api/geographies/74315-CSZ
+        try:
+            geographie = D_Geographie.objects.get(pk_geographie=pk_geographie)
+            print(pk_geographie)
+        except D_Geographie.DoesNotExist:
+            return Response({'erreur': 'La geographie n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+        serializer = D_GeographieSerializer(geographie, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

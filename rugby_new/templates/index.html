@@ -87,14 +87,14 @@ console.log("nb clubs")
             })
             .then(data => {
                 console.log(data);
-                const numClubs = data.num_clubs;
+                const numClubs = data.count;
                 console.log('Nombre de clubs:', numClubs)
                 document.getElementById('nombre-clubs').innerText = `${numClubs} clubs`;
 
-                const numFederations = data.num_federations;
+                const numFederations = data.results.num_federations;
                 document.getElementById('nombre-federation').innerText = `${numFederations} féderations`;
 
-                const numGeographies = data.num_geographies;
+                const numGeographies = data.results.num_geographies;
                 document.getElementById('nombre-geographie').innerText = `${numGeographies} lieux`;
 
             })

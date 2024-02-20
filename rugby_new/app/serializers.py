@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from app.models import F_Club, D_Federation, D_Date, City
+from app.models import F_Club, D_Federation, D_Date, City, D_Geographie
 
 
 class FClubSerializer(serializers.ModelSerializer):
@@ -26,4 +26,7 @@ class CitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class D_GeographieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = D_Geographie
+        fields = '__all__'
