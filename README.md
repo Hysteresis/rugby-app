@@ -1,16 +1,61 @@
-# Clubs sportifs Auvergne-Rhône-Alpes
+# Projet Clubs Sportifs Auvergne-Rhône-Alpes
 
-L'objectif de ce projet est de travailler avec des données réelles datant de 2021, extraites de deux fichiers CSV.
+Ce projet vise à fournir une plateforme complète pour la gestion et l'analyse des données des clubs sportifs de la région Auvergne-Rhône-Alpes. Il est divisé en deux parties principales : l'ETL (Extract, Transform, Load) et le développement web.
 
-Le projet est divisé en deux parties principales :
+## Structure du projet
 
-## ETL (Extract, Transform, Load) :
+- **ETL :**
+  - `ods_clubs.py` : Script Python pour créer l'ODS (Operational Data Store) des clubs sportifs.
+  - `dwh_clubs.py` : Script Python pour créer le DWH (Data Warehouse) des clubs sportifs.
 
-Nous réalisons un processus ETL pour préparer et intégrer les données. La première étape consiste à créer l'ODS (Operational Data Store) nommé "ODS Clubs", où les données seront stockées en temps réel. Ensuite, nous construisons le DWH (Data Warehouse) nommé "DWH Clubs", qui servira de référentiel central pour l'analyse.
+- **Développement Web :**
+  - `frontend/` : Contient les fichiers HTML, CSS et JavaScript pour l'interface utilisateur.
+  - `backend/` : Contient le code Python du back-end développé avec Django.
 
-## Développement Web :
+## Prérequis
 
-- La partie Front-end de l'application est développée en utilisant HTML, CSS et JavaScript pour offrir une expérience utilisateur conviviale et interactive.
-- La partie Back-end est mise en œuvre avec Python, en utilisant le Framework Django. Django facilite le développement rapide d'applications web robustes en fournissant une structure MVC (Modèle-Vue-Contrôleur) et des fonctionnalités telles que l'ORM (Object-Relational Mapper) pour interagir avec la base de données.
+- Python 3.12
+- Django
+- Pandas
+- ...
 
-Ce projet vise à fournir une plateforme complète pour la gestion et l'analyse des données des clubs sportifs de la région Auvergne-Rhône-Alpes, en utilisant des technologies modernes et des bonnes pratiques de développement web.
+## Installation
+
+1. Clonez ce dépôt sur votre machine locale :
+git clone https://github.com/votre-utilisateur/nom-du-projet.git
+
+2. Installez les dépendances Python en exécutant :
+
+pip install -r requirements.txt
+
+
+## Utilisation
+
+1. Pour exécuter l'ETL :
+python ods_clubs.py
+python dwh_clubs.py
+
+
+2. Pour lancer le serveur Django :
+python manage.py runserver
+
+
+3. Accédez à l'adresse http://localhost:8000 dans votre navigateur pour utiliser l'application web.
+
+4. La barre de navigation permet de naviguer sur les pages :
+- Accueil
+- ODS Clubs
+- API
+- Panel Admin
+
+5. La page d'accueil permet d'afficher certaines données comme
+   - le nombre de lignes de l'ODS
+   - le nombre de clubs
+   - le nombre de fédérations
+   - le nombre de lieux
+   - 
+De plus, le bouton **Mise à jour ODS Clubs** permet de recharger l'ODS et ainsi observer le temps que met le script à **Bulck** les données
+
+## Licence
+
+Ce projet est sous licence MIT.
