@@ -115,7 +115,7 @@ class City_api(APIView):
         serializer = CitySerializer(city, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, postal_code):
@@ -130,18 +130,30 @@ class City_api(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, postal_code):
-        try:
-            city = City.objects.get(postal_code=postal_code)
-        except City.DoesNotExist:
-            return Response({'error': 'La ville n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+    # def delete(self, request, postal_code):
+    #     try:
+    #         city = City.objects.get(postal_code=postal_code)
+    #     except City.DoesNotExist:
+    #         return Response({'error': 'La ville n\'existe pas'}, status=status.HTTP_404_NOT_FOUND)
+    #
+    #     city.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
-        city.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, postal_code):
+        queryset = City.objects.filter(postal_code=postal_code).first()
+        if postal_code is None:
+            return Response({'erreur': f"Veuillez saisir un code postal"}, status=status.HTTP_400_BAD_REQUEST)
+        elif queryset is None:
+            return Response({'erreur': f"Pas de ville avec ce code postal : {postal_code}"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            queryset.delete()
+            return Response({'message': f"Ville ({postal_code}) supprimée"}, status=status.HTTP_204_NO_CONTENT)
+
 
 
 class Club_api(APIView):
-    def get(self, request):
+    # http://127.0.0.1:8000/api/clubs/
+    def get(self, request, code=None):
         try:
             clubs = F_Club.objects.all()
             paginator = PageNumberPagination()
@@ -224,6 +236,7 @@ class API_Operational_Data_Store(APIView):
 
 
 class D_Geographie_api(APIView):
+    # api/geographies/74315-CSZ
     """
 
     """

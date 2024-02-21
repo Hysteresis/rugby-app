@@ -160,8 +160,8 @@ class D_Type(models.Model):
 
 class D_Geographie(models.Model):
     pk_geographie = models.CharField(max_length=90, primary_key=True)
-    # code_commune = models.CharField(max_length=30)
-    # code_qpv = models.CharField(max_length=50)
+    code_commune = models.CharField(max_length=30)
+    code_qpv = models.CharField(max_length=50)
     commune = models.CharField(max_length=50)
     qpv = models.CharField(max_length=255)
     departement = models.CharField(max_length=50)

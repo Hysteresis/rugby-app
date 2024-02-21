@@ -15,7 +15,7 @@
           <a class="nav-link {% if request.path == '/ods/' %}active{% endif %}" href="{% url 'ods_data' %}">ODS Clubs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.path == '/api/' %}active{% endif %}" href="{% url 'api:endpoint' %}">API</a>
+          <a class="nav-link {% if request.path == '/api/' %}active{% endif %}" href="{% url 'endpoint' %}">API</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% if request.path == '/admin/' %}active{% endif %}" href="{% url 'admin:index' %}">Admin</a>

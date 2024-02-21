@@ -18,7 +18,9 @@ def insert_geography_data_from_csv(csv_file_path):
 
             pk_geographie=pk_geographie,
             defaults={
+                'code_commune': row['Code Commune'],
                 'commune': row['Commune'],
+                'code_qpv': row['Code QPV'],
                 'qpv': row['Nom QPV'],
                 'departement': row['Département'],
                 'region': row['Région'],
@@ -27,7 +29,9 @@ def insert_geography_data_from_csv(csv_file_path):
         )
         if not created:
             # Si l'objet existait déjà, mettez à jour les autres champs si nécessaire
+            geography_obj.code_commune = row['Code Commune']
             geography_obj.commune = row['Commune']
+            geography_obj.code_qpv = row['Code QPV']
             geography_obj.qpv = row['Nom QPV']
             geography_obj.departement = row['Département']
             geography_obj.region = row['Région']
@@ -37,7 +41,7 @@ def insert_geography_data_from_csv(csv_file_path):
         # print(f"Géographie {geography_obj.pk_geographie}: {geography_obj.commune}")
 
 
-def inserer_geographie():
+def run():
     D_Geographie.objects.all().delete()
 
     csv_files = ['clubs-data-2021.csv', 'lic-data-2021.csv'] # Liste de vos fichiers CSV contenant les données de géographie
