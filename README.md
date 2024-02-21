@@ -4,7 +4,7 @@ L'objectif de ce projet est de travailler avec des données réelles datant de 2
 
 Le projet est divisé en deux parties principales :
 
-##ETL (Extract, Transform, Load) :
+## ETL (Extract, Transform, Load) :
 
 Nous réalisons un processus ETL pour préparer et intégrer les données. La première étape consiste à créer l'ODS (Operational Data Store) nommé "ODS Clubs", où les données seront stockées en temps réel. Ensuite, nous construisons le DWH (Data Warehouse) nommé "DWH Clubs", qui servira de référentiel central pour l'analyse et le reporting.
 
