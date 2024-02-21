@@ -8,7 +8,7 @@ class Geocoding:
     def get_departement(self, value):
         url = 'https://maps.googleapis.com/maps/api/geocode/json'
         params = {
-            'key': 'AIzaSyBC1OnjBomcXWYcCtL6N7LwTWwQiXlFpws',
+            'key': 'my api _key', #Google API KEY
             'address': value
         }
 
