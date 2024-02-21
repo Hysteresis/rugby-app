@@ -1,4 +1,4 @@
-# Clubs sprotifs Auvergne-Rhône-Alpes
+# Clubs sportifs Auvergne-Rhône-Alpes
 
 L'objectif de ce projet est de travailler avec des données réelles datant de 2021, extraites de deux fichiers CSV.
 
