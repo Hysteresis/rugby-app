@@ -22,11 +22,27 @@ Ce projet vise à fournir une plateforme complète pour la gestion et l'analyse 
 ## Installation
 
 1. Clonez ce dépôt sur votre machine locale :
+2. ```bash
 git clone https://github.com/votre-utilisateur/nom-du-projet.git
-
-2. Installez les dépendances Python en exécutant :
-
+ ```
+3. Installez les dépendances Python en exécutant :
+```bash
 pip install -r requirements.txt
+ ```
+
+## Utilisation avec Docker
+1. Assurez-vous d'avoir Docker installé sur votre machine.
+
+2. Clonez ce dépôt sur votre machine locale :
+git clone https://github.com/votre-utilisateur/nom-du-projet.git
+3. Dans le répertoire du projet, construisez l'image Docker en exécutant la commande suivante :
+```bash
+docker build -t nom-du-projet .
+ ```
+```bash
+docker-compose up
+ ```
+
 
 
 ## Utilisation
